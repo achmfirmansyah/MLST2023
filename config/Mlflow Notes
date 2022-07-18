@@ -1,0 +1,8 @@
+Note:
+
+## menjalankan server:
+mlflow server --backend-store-uri ./mlruns --host 10.184.0.28 
+
+## seteleah menghapus experiment atau runs
+rm -rf mlruns/.trash/*
+mlflow gc --backend-store-uri ./mlruns
