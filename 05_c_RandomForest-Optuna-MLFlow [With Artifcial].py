@@ -51,15 +51,16 @@ def preparing():
     with open('ml_output/04_05_modeling/feature_selection/fs.pickle', 'rb') as handle:
         fs_=pickle.load(handle)
 
-    rf_params=fs_['randomforest-wo_artificial']
+    rf_params=fs_['randomforest-w_artificial']
+    strategy=rf_params['params.strategy']
     feature_used=rf_params['params.feature_name'].replace('[','').replace(']','').replace('\'','').replace(' ','').split(',')
     feature_used.append('nama_valid')
     if rf_params['params.condition']=='w_outlier_':
         data_sample=pd.read_csv("gs://bps-gcp-bucket/MLST2023/preprocessing/sample_"+
-                             str(pic_) +".csv",sep=',')[feature_used]
+                             str(pic_)+'_'+strategy+".csv",sep=',')[feature_used]
     else:
         data_sample=pd.read_csv("gs://bps-gcp-bucket/MLST2023/preprocessing/sample_"+
-                             str(pic_) +"_no_outlier.csv",sep=',')[feature_used]
+                             str(pic_) +"_no_outlier"+'_'+strategy+".csv",sep=',')[feature_used]
     columns_data=data_sample.columns.to_list()
     columns_data.remove('nama_valid')
     data_sample=data_sample
@@ -99,7 +100,7 @@ def rf_obj(trial):
         cohen_kappa_score_.append(cohen_kappa_score(valid_y, pred_labels))
         
     mlflow.log_param('algorithm',"randomforest")        
-    mlflow.log_param('strategy','no artificial')    
+    mlflow.log_param('strategy','with artificial')    
     mlflow.sklearn.log_model(rf_, "rf_model")
     
     return np.mean(f1_micro), np.mean(log_loss_), np.mean(roc_auc_score_),np.mean(cohen_kappa_score_)
@@ -113,7 +114,7 @@ def myapp(cfg : DictConfig) -> None:
     preparing()
     
     study = optuna.create_study(study_name='Hyper Parameter Tuning',load_if_exists=True, 
-                                storage='sqlite:///ml_output/05_trials_hypertuning/tuning_randomforest_no_artificial.db',
+                                storage='sqlite:///ml_output/05_trials_hypertuning/tuning_randomforest_with_artificial.db',
                                 directions=['maximize','minimize','maximize','maximize'])
     study.optimize(rf_obj, n_trials=50, callbacks=[mlflc],n_jobs=1)
 
