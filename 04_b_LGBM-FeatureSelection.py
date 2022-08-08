@@ -60,7 +60,7 @@ def parallel_FE_lgbm(i):
                                   (client_run["params.algorithm"]=='lightgbm')&
                                   (client_run["params.strategy"]==strategy_)]
         if str(i) in client_run['params.num_feature'].to_list():
-            log.info('Experiment with number of feature:',i, ' already done. It will be skipped.')
+            print('Experiment with number of feature:',i, ' already done. It will be skipped.')
             return ''
     mlflow.set_tracking_uri(tracking_uri_)
     

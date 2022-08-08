@@ -61,7 +61,7 @@ def parallel_FE_catboost(i):
                                   (client_run["params.algorithm"]=='catboost')&
                                   (client_run["params.strategy"]==strategy_)]
         if str(i) in client_run['params.num_feature'].to_list():
-            log.info('Experiment with number of feature:',i, ' already done. It will be skipped.')
+            print('Experiment with number of feature:',i, ' already done. It will be skipped.')
             return ''
     mlflow.set_tracking_uri(tracking_uri_)
     with mlflow.start_run(experiment_id = experiment.experiment_id,
