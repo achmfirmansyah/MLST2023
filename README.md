@@ -20,6 +20,8 @@ The data modeling are used for:
 4. Explaining Model
 
 ## Data Production
+Production include:
+1. Classifying the map with selected model
 
 ## Package used:
 - geopandas
@@ -32,6 +34,7 @@ The data modeling are used for:
 - optuna
 - hydra
 - mlflow
+- rioxarray
 
 ## License
 STATISTIC INDONESIA (BPS) -LICENSE
