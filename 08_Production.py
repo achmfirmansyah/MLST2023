@@ -39,10 +39,10 @@ def parallel_classify_raster(idgrid):
         if len(ls_file)!=81:
             for dt1 in dt_:
                 pool_paralle(dt1)
-            ls_file=glob('ml_output/08_class_result/temp/'+idgrid+'*.tif')
+            
         else:
             print('SKIP TEMP CLASSIFICATION')
-            
+        ls_file=glob('ml_output/08_class_result/temp/classified_'+idgrid+'*.tif')    
         tif_name='ml_output/08_class_result/result/classified_'+str(idgrid)+'.tif'
         src_files_to_mosaic = []
         for ls in ls_file:
